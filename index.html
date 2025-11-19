@@ -33,6 +33,20 @@
                     colors: {
                         amber: { 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706' },
                         slate: { 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'fragment': 'fragment 1.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        fragment: {
+                            '0%': { letterSpacing: 'normal', opacity: '1', filter: 'blur(0px)' },
+                            '100%': { letterSpacing: '2rem', opacity: '0', filter: 'blur(10px)' },
+                        }
                     }
                 }
             }
@@ -89,7 +103,7 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+        const { useState, useEffect, useRef, useCallback } = React;
 
         // --- ICONOS ---
         const Icon = ({ path, size = 24, className = "" }) => (
@@ -213,8 +227,8 @@ class EduSystem {
           { name: 'Git', icon: <Icons.Github size={16} /> }
         ];
 
-        // --- FONDO NEURONAL "EL DORADO" (Parallax Bloque) ---
-        const NeuralBackground = () => {
+        // --- FONDO NEURONAL (Parallax Bloque) ---
+        const NeuralBackground = ({ show }) => {
           const containerRef = useRef(null);
 
           useEffect(() => {
@@ -222,13 +236,14 @@ class EduSystem {
             let mouseX = 0, mouseY = 0;
             let targetRotationX = 0;
             let targetRotationY = 0;
+            let animationId;
 
             const initThree = () => {
               if (!containerRef.current) return;
               containerRef.current.innerHTML = '';
 
               scene = new THREE.Scene();
-              scene.fog = new THREE.FogExp2(0x000000, 0.0015); // Niebla para profundidad
+              scene.fog = new THREE.FogExp2(0x000000, 0.0015); 
 
               camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
               camera.position.z = 60;
@@ -238,7 +253,6 @@ class EduSystem {
               renderer.setPixelRatio(window.devicePixelRatio);
               containerRef.current.appendChild(renderer.domElement);
 
-              // 1. Textura Circular
               const getCircleTexture = () => {
                   const canvas = document.createElement('canvas');
                   canvas.width = 32;
@@ -251,27 +265,23 @@ class EduSystem {
                   return new THREE.CanvasTexture(canvas);
               };
 
-              // 2. Geometría de Partículas
               const geometry = new THREE.BufferGeometry();
-              const count = 1000; // Densidad
+              const count = 1000; 
               const positions = new Float32Array(count * 3);
               const colors = new Float32Array(count * 3);
 
-              // Paleta "El Dorado" Exclusiva
               const colorPalette = [
-                  new THREE.Color(0xffd700), // Gold Puro
-                  new THREE.Color(0xd97706), // Amber Oscuro
-                  new THREE.Color(0xfcd34d), // Amber Claro
-                  new THREE.Color(0xffffff)  // White Sparks
+                  new THREE.Color(0xffd700), 
+                  new THREE.Color(0xd97706), 
+                  new THREE.Color(0xfcd34d), 
+                  new THREE.Color(0xffffff)  
               ];
 
               for(let i = 0; i < count; i++) {
-                // Distribución amplia
                 positions[i * 3] = (Math.random() - 0.5) * 250;
                 positions[i * 3 + 1] = (Math.random() - 0.5) * 250;
                 positions[i * 3 + 2] = (Math.random() - 0.5) * 200;
 
-                // Color aleatorio dorado
                 const color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
                 colors[i * 3] = color.r;
                 colors[i * 3 + 1] = color.g;
@@ -281,7 +291,6 @@ class EduSystem {
               geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
               geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-              // 3. Material
               material = new THREE.PointsMaterial({
                 size: 0.7,
                 map: getCircleTexture(),
@@ -294,29 +303,24 @@ class EduSystem {
               particles = new THREE.Points(geometry, material);
               scene.add(particles);
 
-              // 4. Líneas de Conexión (Red Dorada)
               const lineMaterial = new THREE.LineBasicMaterial({ color: 0xd97706, transparent: true, opacity: 0.08 });
               const lineGeometry = new THREE.BufferGeometry();
               const linePos = [];
-              // Crear una red dispersa estática
               for(let i=0; i<150; i++) {
                  const x = (Math.random() - 0.5) * 200;
                  const y = (Math.random() - 0.5) * 200;
                  const z = (Math.random() - 0.5) * 150;
-                 // Líneas cortas aleatorias
                  linePos.push(x, y, z);
                  linePos.push(x + (Math.random()-0.5)*30, y + (Math.random()-0.5)*30, z + (Math.random()-0.5)*30);
               }
               lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePos, 3));
               const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-              particles.add(lines); // Mover junto con las partículas
+              particles.add(lines);
             };
 
             initThree();
 
-            // PARALLAX LOGIC (Mejorada)
             const onMove = (e) => {
-                // Normalizar mouse (-1 a 1)
                 const x = (e.clientX / window.innerWidth) * 2 - 1;
                 const y = -(e.clientY / window.innerHeight) * 2 + 1;
                 mouseX = x;
@@ -325,26 +329,15 @@ class EduSystem {
             window.addEventListener('mousemove', onMove);
 
             const animate = () => {
-                requestAnimationFrame(animate);
+                animationId = requestAnimationFrame(animate);
 
                 if (particles) {
-                    // 1. Rotación automática calibrada (visible pero lenta)
-                    particles.rotation.y += 0.0008; // Ajuste medio
-
-                    // 2. Parallax Ajustado (0.25 permite rango sin ser rápido)
+                    particles.rotation.y += 0.0008; 
                     const limit = 0.25; 
-                    
                     targetRotationX = mouseY * limit; 
                     targetRotationY = mouseX * limit;
-
-                    // Suavizado elástico (0.08 es buena respuesta)
                     particles.rotation.x += (targetRotationX - particles.rotation.x) * 0.08;
-                    
-                    // Para la rotación en Y, añadimos un offset sutil a la rotación automática
-                    // Inclinación Z para efecto giro
                     particles.rotation.z += (-targetRotationY * 0.5 - particles.rotation.z) * 0.08;
-                    
-                    // Traslación ligera
                     particles.position.y += (mouseY * 4 - particles.position.y) * 0.08;
                     particles.position.x += (mouseX * 4 - particles.position.x) * 0.08;
                 }
@@ -367,10 +360,11 @@ class EduSystem {
             return () => {
                 window.removeEventListener('mousemove', onMove);
                 window.removeEventListener('resize', onResize);
+                cancelAnimationFrame(animationId);
             };
           }, []);
 
-          return <div ref={containerRef} className="fixed inset-0 z-0 pointer-events-none opacity-60" />;
+          return <div ref={containerRef} className={`fixed inset-0 z-0 pointer-events-none transition-opacity duration-1000 ${show ? 'opacity-60' : 'opacity-0'}`} />;
         };
 
         // --- Editor de Código ---
@@ -409,48 +403,35 @@ class EduSystem {
           );
         };
 
-        // --- CARRUSEL DE EDUCACIÓN (Single Card) ---
+        // --- CARRUSEL DE EDUCACIÓN (Auto-play, Single Card, Same Height) ---
         const EducationCarousel = () => {
             const [currentIndex, setCurrentIndex] = useState(0);
 
-            const nextSlide = () => {
-                setCurrentIndex((prev) => (prev + 1) % EDUCATION.length);
-            };
-
-            const prevSlide = () => {
-                setCurrentIndex((prev) => (prev - 1 + EDUCATION.length) % EDUCATION.length);
-            };
+            useEffect(() => {
+                const timer = setInterval(() => {
+                    setCurrentIndex((prev) => (prev + 1) % EDUCATION.length);
+                }, 3000);
+                return () => clearInterval(timer);
+            }, []);
 
             const edu = EDUCATION[currentIndex];
 
             return (
-                <div className="relative glass-panel rounded-2xl p-8 flex flex-col items-center justify-center text-center h-[240px]">
-                    <div className="absolute top-1/2 -translate-y-1/2 left-2">
-                        <button onClick={prevSlide} className="p-2 rounded-full bg-black/30 hover:bg-amber-500/20 text-slate-400 hover:text-amber-500 transition-colors">
-                            <Icons.ChevronLeft size={24} />
-                        </button>
-                    </div>
-                    
-                    <div className="animate-fade-in w-full px-8">
-                        <div className={`mb-4 inline-block p-4 rounded-full bg-slate-950/50 ${edu.color}`}>
+                // IMPORTANTE: h-full para igualar altura con la tarjeta vecina en el grid
+                // y min-h para asegurar espacio
+                <div className="relative glass-panel rounded-2xl p-6 flex flex-col items-center justify-center text-center h-full min-h-[260px] overflow-hidden group">
+                    <div key={edu.id} className="animate-fade-in w-full flex flex-col items-center">
+                        <div className={`mb-3 p-3 rounded-full bg-slate-950/50 border border-white/5 ${edu.color} shadow-lg transform transition-transform duration-500 hover:scale-110`}>
                             {edu.icon}
                         </div>
-                        <h3 className="text-2xl font-bold text-white mb-2">{edu.title}</h3>
-                        <p className="text-amber-500 font-medium text-sm mb-1">{edu.place}</p>
-                        <p className="text-slate-500 text-xs uppercase tracking-wider">{edu.loc}</p>
-                        {edu.active && <span className="mt-3 inline-block px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-bold uppercase rounded border border-green-500/20">Actualidad</span>}
-                    </div>
-
-                    <div className="absolute top-1/2 -translate-y-1/2 right-2">
-                        <button onClick={nextSlide} className="p-2 rounded-full bg-black/30 hover:bg-amber-500/20 text-slate-400 hover:text-amber-500 transition-colors">
-                            <Icons.ChevronRight size={24} />
-                        </button>
-                    </div>
-
-                    <div className="absolute bottom-4 flex space-x-1">
-                        {EDUCATION.map((_, idx) => (
-                            <div key={idx} className={`w-1.5 h-1.5 rounded-full ${idx === currentIndex ? 'bg-amber-500' : 'bg-slate-800'}`}></div>
-                        ))}
+                        <h3 className="text-xl font-bold text-white mb-1 tracking-tight">{edu.title}</h3>
+                        <p className="text-amber-500 font-medium text-sm">{edu.place}</p>
+                        <p className="text-slate-500 text-xs uppercase tracking-wider mt-1">{edu.loc}</p>
+                        {edu.active && (
+                            <span className="mt-2 inline-block px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-bold uppercase rounded border border-green-500/20 animate-pulse">
+                                Actualidad
+                            </span>
+                        )}
                     </div>
                 </div>
             );
@@ -458,7 +439,7 @@ class EduSystem {
 
         // --- Navbar ---
         const Navbar = () => (
-          <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+          <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-fade-in" style={{animationDelay: '1.5s'}}>
             <div className="bg-black/50 backdrop-blur-xl border border-white/10 rounded-full px-6 py-2.5 flex items-center gap-6 shadow-2xl">
               <span className="text-sm font-bold text-white tracking-tight">CJ<span className="text-amber-500">.</span></span>
               <div className="h-4 w-[1px] bg-white/10"></div>
@@ -516,7 +497,8 @@ class EduSystem {
           <section className="py-12 px-6 relative z-10">
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-6">
               
-              <div className="glass-panel rounded-2xl p-8 flex flex-col justify-between min-h-[240px] relative overflow-hidden group">
+              {/* Tarjeta Didac-Click (Altura ajustada para coincidir) */}
+              <div className="glass-panel rounded-2xl p-8 flex flex-col justify-between h-full min-h-[260px] relative overflow-hidden group">
                 <div className="absolute right-0 top-0 w-32 h-32 bg-gradient-to-br from-amber-500/20 to-transparent rounded-bl-full -mr-8 -mt-8 transition-all group-hover:scale-110"></div>
                 
                 <div>
@@ -603,20 +585,25 @@ class EduSystem {
         );
 
         const App = () => {
+          // Solo un estado simple para mostrar el contenido directamente
+          const [introFinished, setIntroFinished] = useState(true);
+
           return (
             <div className="min-h-screen font-sans text-slate-200 selection:bg-amber-500/30 selection:text-white">
-              <NeuralBackground />
-              <div className="fixed inset-0 z-0 opacity-20 pointer-events-none" style={{backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px)', backgroundSize: '50px 50px', maskImage: 'radial-gradient(circle at center, black 40%, transparent 100%)'}}></div>
               
-              <Navbar />
+              <NeuralBackground show={introFinished} />
               
-              <main className="relative z-10 pb-20">
-                <Hero />
-                <ProfileSection />
-                <ProjectsGrid />
-              </main>
+              <div className={`fixed inset-0 z-0 pointer-events-none transition-opacity duration-1000 opacity-20`} style={{backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px)', backgroundSize: '50px 50px', maskImage: 'radial-gradient(circle at center, black 40%, transparent 100%)'}}></div>
               
-              <Footer />
+              <div className="animate-fade-in">
+                  <Navbar />
+                  <main className="relative z-10 pb-20">
+                    <Hero />
+                    <ProfileSection />
+                    <ProjectsGrid />
+                  </main>
+                  <Footer />
+              </div>
             </div>
           );
         };
