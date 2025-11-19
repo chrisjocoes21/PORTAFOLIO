@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christopher Cordero | Portafolio</title>
+    <title>Christopher Cordero | VIVE CODER</title>
     
     <!-- FAVICON INTEGRADO (Solo la C Dorada) -->
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23000000'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='70' fill='%23d97706'%3EC%3C/text%3E%3C/svg%3E" type="image/svg+xml">
@@ -97,6 +97,12 @@
         
         .cursor-blink { animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
+
+        /* Intro Text Style */
+        .intro-text {
+            font-family: 'Fira Code', monospace;
+            text-shadow: 0 0 10px rgba(217, 119, 6, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -135,26 +141,30 @@
             BrainCircuit: (p) => <Icon {...p} path="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />,
             Sparkles: (p) => <Icon {...p} path="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />,
             ChevronLeft: (p) => <Icon {...p} path="M15 18l-6-6 6-6" />,
-            ChevronRight: (p) => <Icon {...p} path="M9 18l6-6-6-6" />
+            ChevronRight: (p) => <Icon {...p} path="M9 18l6-6-6-6" />,
+            Bot: (p) => <Icon {...p} path="M12 8V4H8 M16 4h-4v4 M4 14a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4z M9 16a1 1 0 1 0 0-2 1 1 0 0 0 0 2z M15 16a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
         };
 
-        // --- DATOS ---
+        // --- DATOS: VIVE CODING SIMULATION ---
+        // Este snippet simula un Prompt de IA y la generación de código
         const CODE_SNIPPET = `
-class EduSystem {
+// 🧠 AI Prompt: 
+// "Crea una clase para gamificar el aula."
+
+class ViveCoding {
   constructor() {
-    this.role = 'Maestro General';
-    this.stack = ['Pedagogía', 'Código'];
+    this.methodology = 'IA + Pedagogía';
+    this.tools = ['LLMs', 'Prompts'];
   }
 
-  innovar(aula) {
-    const metodologia = new DidacClick({
-      recurso: 'Gamificación',
-      adaptabilidad: true
+  createSolution(problem) {
+    // La IA genera la estructura técnica
+    // Yo aporto la lógica educativa
+    return new Innovation({
+      target: problem,
+      impact: 'High',
+      mode: 'Live'
     });
-    
-    return aula.map(alumno => 
-      metodologia.potenciar(alumno)
-    );
   }
 }`;
 
@@ -219,10 +229,10 @@ class EduSystem {
         ];
 
         const STACK = [
-          { name: 'JavaScript', icon: <Icons.Terminal size={16} /> },
-          { name: 'React', icon: <Icons.Cpu size={16} /> },
-          { name: 'Tailwind', icon: <Icons.Layout size={16} /> },
+          { name: 'AI Prompting', icon: <Icons.Bot size={16} /> },
+          { name: 'Arquitectura', icon: <Icons.Cpu size={16} /> },
           { name: 'Apps Script', icon: <Icons.Database size={16} /> },
+          { name: 'Lógica', icon: <Icons.BrainCircuit size={16} /> },
           { name: 'Didáctica', icon: <Icons.Zap size={16} /> },
           { name: 'Git', icon: <Icons.Github size={16} /> }
         ];
@@ -367,7 +377,7 @@ class EduSystem {
           return <div ref={containerRef} className={`fixed inset-0 z-0 pointer-events-none transition-opacity duration-1000 ${show ? 'opacity-60' : 'opacity-0'}`} />;
         };
 
-        // --- Editor de Código ---
+        // --- Editor de Código (Simulación VIVE CODING) ---
         const CodeBlock = () => {
           const [code, setCode] = useState('');
           const index = useRef(0);
@@ -387,14 +397,15 @@ class EduSystem {
 
           const highlight = (c) => c
             .replace(/\b(class|constructor|this|return|const|new)\b/g, '<span class="text-purple-400 font-bold">$1</span>')
-            .replace(/\b(EduSystem|DidacClick)\b/g, '<span class="text-amber-500 font-bold">$1</span>')
-            .replace(/'([^']*)'/g, '<span class="text-green-400">\'$1\'</span>');
+            .replace(/\b(ViveCoding|Innovation)\b/g, '<span class="text-amber-500 font-bold">$1</span>')
+            .replace(/'([^']*)'/g, '<span class="text-green-400">\'$1\'</span>')
+            .replace(/(\/\/.*)/g, '<span class="text-slate-500 italic">$1</span>');
 
           return (
             <div className="glass-panel rounded-xl overflow-hidden h-full flex flex-col">
-              <div className="bg-black/40 px-4 py-2 flex items-center gap-2 border-b border-white/5">
+              <div className="bg-black/40 px-4 py-2 flex items-center justify-between border-b border-white/5">
                 <div className="flex gap-1.5"><div className="w-2 h-2 rounded-full bg-red-500/50"/><div className="w-2 h-2 rounded-full bg-yellow-500/50"/><div className="w-2 h-2 rounded-full bg-green-500/50"/></div>
-                <span className="text-[10px] text-slate-500 font-mono ml-2">pedagogia.js</span>
+                <span className="text-[10px] text-slate-500 font-mono ml-2 flex items-center"><Icons.Bot size={10} className="mr-1"/> AI_Session.js</span>
               </div>
               <div className="p-4 font-mono text-[11px] leading-relaxed text-slate-300 overflow-hidden flex-grow">
                 <pre style={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={{ __html: highlight(code) + '<span class="cursor-blink text-amber-500">|</span>' }} />
@@ -403,7 +414,7 @@ class EduSystem {
           );
         };
 
-        // --- CARRUSEL DE EDUCACIÓN (Auto-play, Single Card, Same Height) ---
+        // --- CARRUSEL DE EDUCACIÓN (Auto-play) ---
         const EducationCarousel = () => {
             const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -417,8 +428,6 @@ class EduSystem {
             const edu = EDUCATION[currentIndex];
 
             return (
-                // IMPORTANTE: h-full para igualar altura con la tarjeta vecina en el grid
-                // y min-h para asegurar espacio
                 <div className="relative glass-panel rounded-2xl p-6 flex flex-col items-center justify-center text-center h-full min-h-[260px] overflow-hidden group">
                     <div key={edu.id} className="animate-fade-in w-full flex flex-col items-center">
                         <div className={`mb-3 p-3 rounded-full bg-slate-950/50 border border-white/5 ${edu.color} shadow-lg transform transition-transform duration-500 hover:scale-110`}>
@@ -439,7 +448,7 @@ class EduSystem {
 
         // --- Navbar ---
         const Navbar = () => (
-          <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-fade-in" style={{animationDelay: '1.5s'}}>
+          <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-fade-in">
             <div className="bg-black/50 backdrop-blur-xl border border-white/10 rounded-full px-6 py-2.5 flex items-center gap-6 shadow-2xl">
               <span className="text-sm font-bold text-white tracking-tight">CJ<span className="text-amber-500">.</span></span>
               <div className="h-4 w-[1px] bg-white/10"></div>
@@ -460,7 +469,7 @@ class EduSystem {
               <div className="lg:col-span-7 space-y-8 text-center lg:text-left z-10">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px] font-bold tracking-widest uppercase animate-pulse">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                  Open for Innovation
+                  VIVE CODER
                 </div>
                 
                 <div>
@@ -468,12 +477,12 @@ class EduSystem {
                     Christopher<br/>
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">Cordero</span>
                   </h1>
-                  <p className="text-xl text-slate-400 font-light">Christopher Joel Cordero Espinal</p>
+                  <p className="text-xl text-slate-400 font-light">Maestro de Educación Primaria</p>
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-6 items-center lg:items-start">
                   <p className="text-slate-400 text-base max-w-md leading-relaxed">
-                    Maestro de Educación Modalidad General y CEO de <strong>Didac-Click</strong>. Fusiono la pedagogía integral con la ingeniería de software para crear el futuro del aprendizaje digital.
+                    Fundador y CEO de <strong>Didac-Click</strong>. Fusiono mi experiencia pedagógica con el poder del <strong>VIVE CODING</strong>: creo soluciones de software complejas orquestando Inteligencia Artificial para revolucionar el aula.
                   </p>
                   <div className="flex gap-2">
                      {STACK.map((s,i) => (
@@ -497,7 +506,7 @@ class EduSystem {
           <section className="py-12 px-6 relative z-10">
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-6">
               
-              {/* Tarjeta Didac-Click (Altura ajustada para coincidir) */}
+              {/* Tarjeta Didac-Click */}
               <div className="glass-panel rounded-2xl p-8 flex flex-col justify-between h-full min-h-[260px] relative overflow-hidden group">
                 <div className="absolute right-0 top-0 w-32 h-32 bg-gradient-to-br from-amber-500/20 to-transparent rounded-bl-full -mr-8 -mt-8 transition-all group-hover:scale-110"></div>
                 
@@ -507,21 +516,21 @@ class EduSystem {
                      <h2 className="text-2xl font-bold text-white">Didac-Click</h2>
                   </div>
                   <p className="text-slate-400 text-sm leading-relaxed">
-                    Fundador & CEO. Empresa dedicada al desarrollo de recursos digitales educativos a medida. Transformamos aulas tradicionales en ecosistemas interactivos.
+                    No escribo código línea por línea; <strong>dirijo IAs</strong> para construir ecosistemas digitales robustos. Mi enfoque une la pedagogía humana con la potencia de la inteligencia artificial.
                   </p>
                 </div>
                 
                 <div className="mt-6 flex gap-3">
                    <div className="px-3 py-1 rounded-full bg-black/40 border border-white/10 text-xs text-amber-400 flex items-center gap-1">
-                     <Icons.CheckCircle2 size={12}/> Software Educativo
+                     <Icons.Bot size={12}/> AI Powered
                    </div>
                    <div className="px-3 py-1 rounded-full bg-black/40 border border-white/10 text-xs text-amber-400 flex items-center gap-1">
-                     <Icons.CheckCircle2 size={12}/> Consultoría
+                     <Icons.CheckCircle2 size={12}/> EdTech
                    </div>
                 </div>
               </div>
 
-              {/* Carrusel Académico Unificado */}
+              {/* Carrusel Académico */}
               <EducationCarousel />
 
             </div>
@@ -534,7 +543,7 @@ class EduSystem {
               <div className="flex items-end justify-between mb-8">
                 <div>
                   <h2 className="text-3xl font-bold text-white">Innovación</h2>
-                  <p className="text-slate-500 text-sm mt-1">Soluciones de Código Cerrado (Propiedad Intelectual)</p>
+                  <p className="text-slate-500 text-sm mt-1">Soluciones generadas mediante VIVE CODING</p>
                 </div>
                 <div className="hidden md:block text-right">
                   <div className="text-2xl font-bold text-white">6</div>
@@ -579,13 +588,12 @@ class EduSystem {
           <footer className="py-8 border-t border-white/5 bg-black relative z-10">
             <div className="max-w-6xl mx-auto px-6 flex justify-between items-center text-xs text-slate-600">
               <p>© 2025 Christopher Cordero.</p>
-              <p>Construido con React & Tailwind.</p>
+              <p>Construido con AI & React.</p>
             </div>
           </footer>
         );
 
         const App = () => {
-          // Solo un estado simple para mostrar el contenido directamente
           const [introFinished, setIntroFinished] = useState(true);
 
           return (
