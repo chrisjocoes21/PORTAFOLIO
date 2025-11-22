@@ -153,8 +153,7 @@ class ViveCoding extends Unit01 {
           { id: 5, title: "Maestría Gestión", place: "UFHEC", loc: "En Curso", icon: <Icons.GraduationCap size={24}/>, active: true },
           { id: 4, title: "Lic. Educación", place: "UASD", loc: "Modalidad General", icon: <Icons.BookOpen size={24}/> },
           { id: 2, title: "Lic. Locución", place: "Escuela Otto Rivera", loc: "Santo Domingo", icon: <Icons.Mic size={24}/> },
-          { id: 3, title: "Lic. Pastoral", place: "Univ. La Salle", loc: "México", icon: <Icons.Cross size={24}/> },
-          { id: 1, title: "Secundaria", place: "Liceo Sto. Hermano Miguel", loc: "Santiago", icon: <Icons.School size={24}/> }
+          { id: 3, title: "Lic. Pastoral", place: "Univ. La Salle", loc: "México", icon: <Icons.Cross size={24}/> }
         ];
 
         const PROJECTS = [
@@ -175,36 +174,39 @@ class ViveCoding extends Unit01 {
             icon: <Icons.Database size={24} className="text-gray-300" />
           },
           {
-            id: 'zoo',
-            title: 'Zoo-Lógica',
-            type: 'Gamificación',
-            desc: 'Clasificación taxonómica gamificada. Mecánicas de RPG para aprendizaje de biología.',
-            tags: ['RPG', 'Ciencias'],
-            icon: <Icons.Gamepad2 size={24} className="text-gray-300" />
+            id: 'inc_alpha',
+            title: 'Proyecto [Incubación_A]',
+            type: 'En Producción',
+            desc: 'Iniciativa actualmente en fase de formación y desarrollo activo. Los detalles operativos y características se revelarán próximamente.',
+            tags: ['System', 'Loading...'],
+            icon: <Icons.BrainCircuit size={24} className="text-gray-500" />,
+            wip: true
           },
           {
-            id: 'diccionario',
-            title: 'Reto Diccionario',
-            type: 'Léxico Digital',
-            desc: 'Competencia léxica contrarreloj. Desafíos de vocabulario estructurados como batallas.',
-            tags: ['Lengua', 'Battle'],
-            icon: <Icons.BookOpen size={24} className="text-gray-300" />
+            id: 'inc_beta',
+            title: 'Proyecto [Incubación_B]',
+            type: 'En Producción',
+            desc: 'Arquitectura de software en construcción. Este sistema se encuentra en proceso de producción actual. Espera detalles pronto.',
+            tags: ['Dev', 'Building'],
+            icon: <Icons.Cpu size={24} className="text-gray-500" />,
+            wip: true
           },
           {
-            id: 'matematico',
-            title: 'Desafío Matemático',
-            type: 'Logic Engine',
-            desc: 'Motor algorítmico adaptativo. Ajusta la dificultad en tiempo real según el rendimiento del usuario.',
-            tags: ['Algoritmos', 'Math'],
-            icon: <Icons.Calculator size={24} className="text-gray-300" />
+            id: 'inc_gamma',
+            title: 'Proyecto [Incubación_C]',
+            type: 'En Producción',
+            desc: 'Desarrollo confidencial en curso. Estamos trabajando en la lógica central de este proyecto. Más información técnica en breve.',
+            tags: ['Logic', 'Coming Soon'],
+            icon: <Icons.Zap size={24} className="text-gray-500" />,
+            wip: true
           },
           {
-            id: 'incubadora',
-            title: 'Proyecto [Incubación]',
+            id: 'inc_delta',
+            title: 'Proyecto [Incubación_D]',
             type: 'R&D',
-            desc: 'Investigación de SLMs (Small Language Models) para entornos offline rurales. Tecnología de punta.',
+            desc: 'Investigación avanzada en proceso. Fase de diseño y producción activa. Pronto se desclasificarán los detalles del proyecto.',
             tags: ['AI', 'Future'],
-            icon: <Icons.BrainCircuit size={24} className="text-white" />,
+            icon: <Icons.Bot size={24} className="text-gray-500" />,
             wip: true
           }
         ];
