@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christopher Cordero | SYSTEM ONLINE</title>
+    <title>Didac-Click | EdTech GROUP</title>
     
-    <!-- FAVICON TECH (Corchetes + C) -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='10' fill='%23050505'/%3E%3Cpath d='M25 25 L25 75 M75 25 L75 75' stroke='%23ffffff' stroke-width='8' fill='none'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-weight='bold' font-size='50' fill='%23ffffff'%3EC%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+    <!-- FAVICON TECH (Corchetes + D) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='10' fill='%23050505'/%3E%3Cpath d='M25 25 L25 75 M75 25 L75 75' stroke='%23ffffff' stroke-width='8' fill='none'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-weight='bold' font-size='50' fill='%23ffffff'%3ED%3C/text%3E%3C/svg%3E" type="image/svg+xml">
 
     <!-- Google Fonts: Rajdhani (Tech/Anime) & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -128,32 +128,34 @@
         };
 
         // --- DATOS ---
+        // Actualizado para reflejar un sistema corporativo en lugar de personal
         const CODE_SNIPPET = `
 // SYSTEM INITIATED...
-// PILOT: CHRISTOPHER CORDERO
-// MODE: Education + Tech
+// SYSTEM: DIDAC-CLICK MAIN
+// MODE: EdTech Solutions
 
-class ViveCoding extends Unit01 {
+class DidacSystem extends Core {
   constructor() {
     super();
-    this.synchRate = '100%';
-    this.mission = 'Gamify Education';
+    this.status = 'Online';
+    this.mission = 'Innovate';
   }
 
-  deploySolution(target) {
-    // Engaging AT-Field...
-    return new Impact({
-      target: target,
-      status: 'Operational'
+  deployService(client) {
+    // Engaging AI-Modules...
+    return new Solution({
+      client: client,
+      impact: 'High'
     });
   }
 }`;
 
-        const EDUCATION = [
-          { id: 5, title: "Maestría Gestión", place: "UFHEC", loc: "En Curso", icon: <Icons.GraduationCap size={24}/>, active: true },
-          { id: 4, title: "Lic. Educación", place: "UASD", loc: "Modalidad General", icon: <Icons.BookOpen size={24}/> },
-          { id: 2, title: "Lic. Locución", place: "Escuela Otto Rivera", loc: "Santo Domingo", icon: <Icons.Mic size={24}/> },
-          { id: 3, title: "Lic. Pastoral", place: "Univ. La Salle", loc: "México", icon: <Icons.Cross size={24}/> }
+        // Reemplazado "Educación" (Personal) por "Servicios/Módulos" (Empresa)
+        const SERVICES = [
+          { id: 1, title: "Desarrollo Web", place: "Plataformas", loc: "Escalable", icon: <Icons.Cpu size={24}/>, active: true },
+          { id: 2, title: "Consultoría IA", place: "Optimización", loc: "Inteligente", icon: <Icons.BrainCircuit size={24}/> },
+          { id: 3, title: "Gamificación", place: "Engagement", loc: "Interactivo", icon: <Icons.Gamepad2 size={24}/> },
+          { id: 4, title: "Soporte Cloud", place: "Infraestructura", loc: "24/7", icon: <Icons.Zap size={24}/> }
         ];
 
         const PROJECTS = [
@@ -225,6 +227,12 @@ class ViveCoding extends Unit01 {
           const containerRef = useRef(null);
 
           useEffect(() => {
+            // Protección contra la falta de Three.js
+            if (typeof THREE === 'undefined') {
+                console.error("Error: THREE.js no está cargado. El fondo animado no se inicializará.");
+                return;
+            }
+
             if (!containerRef.current) return;
             containerRef.current.innerHTML = '';
 
@@ -302,9 +310,6 @@ class ViveCoding extends Unit01 {
                 speedLines.position.z += 0.5;
                 if(speedLines.position.z > 50) speedLines.position.z = -50;
 
-                // Lógica Inversa: 
-                // Si mouseY es positivo (arriba), targetX es negativo (mirar arriba/rotación negativa)
-                // Si mouseY es negativo (abajo), targetX es positivo (mirar abajo/rotación positiva)
                 const targetX = -mouseY * 0.2; 
                 const targetY = mouseX * 0.2; 
                 
@@ -345,8 +350,10 @@ class ViveCoding extends Unit01 {
               if (index.current < CODE_SNIPPET.length) {
                 setCode(prev => prev + CODE_SNIPPET.charAt(index.current));
                 index.current++;
+                // Velocidad de tipeo
                 setTimeout(type, 25);
               } else {
+                // Reiniciar el bucle de tipeo después de 8 segundos
                 setTimeout(() => { setCode(''); index.current = 0; type(); }, 8000);
               }
             };
@@ -355,7 +362,7 @@ class ViveCoding extends Unit01 {
 
           const highlight = (c) => c
             .replace(/\b(class|constructor|super|this|return|const|new)\b/g, '<span class="text-white font-bold">$1</span>')
-            .replace(/\b(ViveCoding|Impact|Unit01)\b/g, '<span class="text-gray-400 font-bold">$1</span>')
+            .replace(/\b(DidacSystem|Solution|Core)\b/g, '<span class="text-gray-400 font-bold">$1</span>')
             .replace(/'([^']*)'/g, '<span class="text-gray-500 italic">\'$1\'</span>')
             .replace(/(\/\/.*)/g, '<span class="text-gray-600">$1</span>');
 
@@ -366,7 +373,7 @@ class ViveCoding extends Unit01 {
                     <div className="w-1.5 h-1.5 bg-white animate-pulse"></div>
                     <span className="text-[10px] text-gray-400 font-tech tracking-widest uppercase">Terminal_01</span>
                 </div>
-                <span className="text-[10px] text-gray-600 font-mono">AI_CO PILOT</span>
+                <span className="text-[10px] text-gray-600 font-mono">DC_CORE_SYS</span>
               </div>
               <div className="p-5 font-mono text-[11px] leading-relaxed text-gray-300 overflow-hidden flex-grow relative">
                 <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-white/5"></div>
@@ -376,38 +383,38 @@ class ViveCoding extends Unit01 {
           );
         };
 
-        // --- Carrusel Educación ---
-        const EducationCarousel = () => {
+        // --- Carrusel de Servicios (Antes Educación) ---
+        const ServicesCarousel = () => {
             const [currentIndex, setCurrentIndex] = useState(0);
 
             useEffect(() => {
                 const timer = setInterval(() => {
-                    setCurrentIndex((prev) => (prev + 1) % EDUCATION.length);
+                    setCurrentIndex((prev) => (prev + 1) % SERVICES.length);
                 }, 3000);
                 return () => clearInterval(timer);
             }, []);
 
-            const edu = EDUCATION[currentIndex];
+            const srv = SERVICES[currentIndex];
 
             return (
                 <div className="relative tech-panel p-8 flex flex-col items-center justify-center text-center h-full min-h-[260px] overflow-hidden">
-                    <div className="absolute top-4 right-4 text-[9px] text-gray-700 font-tech tracking-widest">DATA_LOG_0{currentIndex + 1}</div>
-                    <div className="absolute bottom-4 left-4 text-[9px] text-gray-700 font-tech tracking-widest">SYNCING...</div>
+                    <div className="absolute top-4 right-4 text-[9px] text-gray-700 font-tech tracking-widest">MODULE_0{currentIndex + 1}</div>
+                    <div className="absolute bottom-4 left-4 text-[9px] text-gray-700 font-tech tracking-widest">RUNNING...</div>
 
-                    <div key={edu.id} className="animate-fade-in w-full flex flex-col items-center">
+                    <div key={srv.id} className="animate-fade-in w-full flex flex-col items-center">
                         <div className="mb-4 p-4 bg-black border border-white/20 relative group">
                             <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/50"></div>
                             <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/50"></div>
                             <div className={`text-white transition-transform duration-500`}>
-                                {edu.icon}
+                                {srv.icon}
                             </div>
                         </div>
-                        <h3 className="text-2xl font-tech font-bold text-white mb-1 uppercase tracking-wide">{edu.title}</h3>
-                        <p className="text-gray-400 font-medium text-sm font-mono">{edu.place}</p>
-                        <p className="text-gray-600 text-xs uppercase tracking-widest mt-2">[{edu.loc}]</p>
-                        {edu.active && (
+                        <h3 className="text-2xl font-tech font-bold text-white mb-1 uppercase tracking-wide">{srv.title}</h3>
+                        <p className="text-gray-400 font-medium text-sm font-mono">{srv.place}</p>
+                        <p className="text-gray-600 text-xs uppercase tracking-widest mt-2">[{srv.loc}]</p>
+                        {srv.active && (
                             <div className="mt-4 px-3 py-0.5 bg-white/10 text-white text-[9px] font-tech font-bold uppercase tracking-widest border border-white/20 animate-pulse">
-                                ● Current Status
+                                ● System Ready
                             </div>
                         )}
                     </div>
@@ -422,13 +429,13 @@ class ViveCoding extends Unit01 {
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-white/20"></div>
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-white/20"></div>
               
-              <span className="text-lg font-tech font-bold text-white tracking-widest">CJ<span className="text-gray-500">.SYS</span></span>
+              <span className="text-lg font-tech font-bold text-white tracking-widest">DC<span className="text-gray-500">.SYS</span></span>
               
               <div className="h-4 w-[1px] bg-white/20 mx-2"></div>
               
               <div className="flex gap-6">
-                <a href="https://github.com/chrisjocoes21" className="text-gray-500 hover:text-white transition-colors transform hover:scale-110"><Icons.Github size={18}/></a>
-                <a href="mailto:chrisjocoes21@gmail.com" className="text-gray-500 hover:text-white transition-colors transform hover:scale-110"><Icons.Mail size={18}/></a>
+                <a href="#" className="text-gray-500 hover:text-white transition-colors transform hover:scale-110"><Icons.Github size={18}/></a>
+                <a href="#" className="text-gray-500 hover:text-white transition-colors transform hover:scale-110"><Icons.Mail size={18}/></a>
               </div>
             </div>
           </nav>
@@ -447,20 +454,20 @@ class ViveCoding extends Unit01 {
                 
                 <div>
                   <h1 className="text-5xl md:text-8xl font-bold text-white tracking-tighter leading-[0.85] mb-6 font-tech">
-                    CHRISTOPHER<br/>
-                    <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-600 text-stroke">CORDERO</span>
+                    DIDAC-CLICK<br/>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-600 text-stroke">SOLUTIONS</span>
                   </h1>
                   <p className="text-xl text-gray-400 font-light font-mono border-l border-white/20 pl-4">
-                    Maestro de Educación Primaria <span className="text-gray-600">//</span> Developer
+                    Innovación Educativa <span className="text-gray-600">//</span> Desarrollo Tecnológico
                   </p>
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start">
                   <p className="text-gray-400 text-base max-w-md leading-relaxed">
-                    CEO de <strong className="text-white">Didac-Click</strong>. Orquestando Inteligencia Artificial para reescribir el código de la educación moderna.
+                    Somos <strong className="text-white">Didac-Click</strong>. Una entidad dedicada a orquestar Inteligencia Artificial para reescribir el código de la educación moderna.
                   </p>
                   
-                  {/* Stack de iconos corregido y más visible */}
+                  {/* Stack de iconos */}
                   <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                      {STACK.map((s,i) => (
                        <div key={i} className="w-10 h-10 flex items-center justify-center bg-white/5 border border-white/20 rounded hover:bg-white hover:text-black transition-all duration-300 cursor-crosshair" title={s.name}>
@@ -488,14 +495,14 @@ class ViveCoding extends Unit01 {
                   <div className="flex items-center gap-4 mb-6">
                      <div className="p-3 bg-white text-black clip-path-icon"><Icons.Briefcase size={28} /></div>
                      <div>
-                         <h2 className="text-3xl font-tech font-bold text-white uppercase">Didac-Click</h2>
+                         <h2 className="text-3xl font-tech font-bold text-white uppercase">Sobre Nosotros</h2>
                          <span className="text-[10px] text-gray-500 font-mono tracking-widest">CORPORATE ENTITY</span>
                      </div>
                   </div>
                   <p className="text-gray-400 text-sm leading-relaxed font-mono">
                     &gt; Init Sequence: Human_Pedagogy + AI_Power<br/>
                     <br/>
-                    No escribo código línea por línea; <strong className="text-white">dirijo IAs</strong> para construir ecosistemas digitales robustos.
+                    No desarrollamos software convencional; <strong className="text-white">creamos ecosistemas</strong> donde la tecnología y la pedagogía convergen para potenciar el aprendizaje.
                   </p>
                 </div>
                 <div className="mt-8 flex gap-3">
@@ -507,7 +514,7 @@ class ViveCoding extends Unit01 {
                    </div>
                 </div>
               </div>
-              <EducationCarousel />
+              <ServicesCarousel />
             </div>
           </section>
         );
@@ -517,7 +524,7 @@ class ViveCoding extends Unit01 {
             <div className="max-w-6xl mx-auto">
               <div className="flex items-end justify-between mb-12 border-b border-white/10 pb-4">
                 <div>
-                  <h2 className="text-4xl font-tech font-bold text-white uppercase tracking-tighter">Base de Datos</h2>
+                  <h2 className="text-4xl font-tech font-bold text-white uppercase tracking-tighter">Proyectos</h2>
                   <p className="text-gray-500 text-xs font-mono mt-2">[ PROJECTS_LOADED: 100% ]</p>
                 </div>
                 <div className="hidden md:block text-right">
@@ -554,7 +561,7 @@ class ViveCoding extends Unit01 {
         const Footer = () => (
           <footer className="py-10 border-t border-white/10 bg-black relative z-10">
             <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-600 font-mono uppercase tracking-widest">
-              <p>© 2025 Christopher Cordero // All systems nominal.</p>
+              <p>© 2025 Didac-Click // All systems nominal.</p>
               <p>Built with React + Three.js + AI</p>
             </div>
           </footer>
@@ -578,8 +585,20 @@ class ViveCoding extends Unit01 {
           );
         };
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        // Bloque de renderizado con manejo de errores para diagnosticar fallos de inicialización
+        try {
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(<App />);
+        } catch (error) {
+            console.error("Error crítico al renderizar la aplicación:", error);
+            document.getElementById('root').innerHTML = `
+                <div class="p-8 bg-red-900 text-white font-mono min-h-screen flex flex-col justify-center items-center">
+                    <h1 class="text-2xl font-bold mb-4">ERROR DE INICIALIZACIÓN DEL SISTEMA</h1>
+                    <p>La aplicación React falló al iniciarse. Esto podría deberse a que una librería no se cargó correctamente (ej. Three.js).</p>
+                    <p class="mt-4">Revise la consola del navegador para ver el error detallado.</p>
+                </div>
+            `;
+        }
     </script>
 </body>
 </html>
